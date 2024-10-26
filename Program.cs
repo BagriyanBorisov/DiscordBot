@@ -5,6 +5,8 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.Lavalink;
+using DSharpPlus.Net;
 using System;
 using System.Threading.Tasks;
 
@@ -56,8 +58,26 @@ namespace DiscordBotTemplate
 
             Commands.RegisterCommands<Basic>();
 
+            //Lavalink
+            var endpoint = new ConnectionEndpoint
+            {
+                Hostname = "lava-v3.ajieblogs.eu.org",
+                Port = 443,
+                Secured = true,
+            };
+
+            var lavalinkConfig = new LavalinkConfiguration
+            {
+                Password = "https://dsc.gg/ajidevserver",
+                RestEndpoint = endpoint,
+                SocketEndpoint = endpoint,
+            };
+
+            var lava = Client.UseLavalink();
+
             //8. Connect to get the Bot online
             await Client.ConnectAsync();
+            await lava.ConnectAsync(lavalinkConfig);
             await Task.Delay(-1);
         }
 
